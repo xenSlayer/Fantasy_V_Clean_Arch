@@ -4,33 +4,38 @@ import '../../domain/entities/fantasy_five.dart';
 
 class FantasyFiveModel extends FantasyEntity {
   FantasyFiveModel(
-      {@required String uid,
+      {@required int pk,
+      @required String uid,
       @required String playerName,
+      @required int remainingTransfers,
+      @required bool unlimitedTransfer,
+      @required int totalPoints,
       @required int gwPoints,
-      @required int points,
       @required List<Player> captain,
       @required List<Player> startingXIList,
       @required List<Player> substituteList})
-      : super(uid, playerName, gwPoints, points, captain, startingXIList,
-            substituteList);
-
-  @override
-  List<Object> get props => [
-        uid,
-        playerName,
-        gwPoints,
-        points,
-        captain,
-        startingXIList,
-        substituteList
-      ];
+      : super(
+          pk: pk,
+          uid: uid,
+          playerName: playerName,
+          remainingTransfers: remainingTransfers,
+          unlimitedTransfer: unlimitedTransfer,
+          totalPoints: totalPoints,
+          gwPoints: gwPoints,
+          captain: captain,
+          startingXIList: startingXIList,
+          substituteList: substituteList,
+        );
 
   factory FantasyFiveModel.fromJson(Map<String, dynamic> json) =>
       FantasyFiveModel(
+        pk: json["pk"],
         uid: json["uid"],
         playerName: json["player_name"],
+        remainingTransfers: json["remaining_transfers"],
+        unlimitedTransfer: json["unlimited_transfer"],
+        totalPoints: json["total_points"],
         gwPoints: json["GW_points"],
-        points: json["points"],
         captain:
             List<Player>.from(json["captain"].map((x) => Player.fromJson(x))),
         startingXIList: List<Player>.from(
@@ -40,10 +45,13 @@ class FantasyFiveModel extends FantasyEntity {
       );
 
   Map<String, dynamic> toJson() => {
+        "pk": pk,
         "uid": uid,
         "player_name": playerName,
+        "remaining_transfers": remainingTransfers,
+        "unlimited_transfer": unlimitedTransfer,
+        "total_points": totalPoints,
         "GW_points": gwPoints,
-        "points": points,
         "captain": List<dynamic>.from(captain.map((x) => x.toJson())),
         "startingXI_list":
             List<dynamic>.from(startingXIList.map((x) => x.toJson())),
@@ -52,7 +60,7 @@ class FantasyFiveModel extends FantasyEntity {
       };
 }
 
-class Player {
+class Player extends PlayerEntity {
   Player({
     this.id,
     this.playerName,
@@ -73,23 +81,23 @@ class Player {
     this.extraAttributes,
   });
 
-  int id;
-  String playerName;
-  int playerId;
-  bool playerIsInjured;
-  bool playerIsSuspended;
-  int playerPrice;
-  int playerGwPoints;
-  int totalPoints;
-  String playerClub;
-  String playerPosition;
-  String playerImage;
-  int playerGoalsScored;
-  int playerAssist;
-  int cleanSheets;
-  int yellowCards;
-  int redCards;
-  String extraAttributes;
+  final int id;
+  final String playerName;
+  final int playerId;
+  final bool playerIsInjured;
+  final bool playerIsSuspended;
+  final int playerPrice;
+  final int playerGwPoints;
+  final int totalPoints;
+  final String playerClub;
+  final String playerPosition;
+  final String playerImage;
+  final int playerGoalsScored;
+  final int playerAssist;
+  final int cleanSheets;
+  final int yellowCards;
+  final int redCards;
+  final String extraAttributes;
 
   factory Player.fromJson(Map<String, dynamic> json) => Player(
         id: json["id"],

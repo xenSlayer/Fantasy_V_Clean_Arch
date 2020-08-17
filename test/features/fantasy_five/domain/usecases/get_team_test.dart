@@ -1,9 +1,10 @@
-import 'package:Fantasy_V_Clean_Arch/features/fantasy_five/domain/entities/fantasy_five.dart';
 import 'package:Fantasy_V_Clean_Arch/features/fantasy_five/domain/repositories/fantasy_five_repositories.dart';
 import 'package:Fantasy_V_Clean_Arch/features/fantasy_five/domain/usecases/get_team.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
+
+import '../../../../core/sample_model/sample_model.dart';
 
 class MockFantasyFiveRepository extends Mock implements FantasyFiveRepository {}
 
@@ -17,17 +18,17 @@ void main() {
   });
 
   final uid = 'Test';
-  final teamModel = FantasyEntity(uid, 'Test', 0, 0, [], [], []);
+  final teamModel = fantasyfiveSampleModel();
 
   test('should return a team model from the repository', () async {
     // arrange
-    when(mockFantasyFiveRepository.getTeam(uid))
+    when(mockFantasyFiveRepository.getTeam(any))
         .thenAnswer((_) async => Right(teamModel));
     //act
     final result = await getTeam(UID(uid));
     // assert
     expect(result, Right(teamModel));
-    verify(mockFantasyFiveRepository.getTeam(uid));
+    verify(mockFantasyFiveRepository.getTeam(any));
     verifyNoMoreInteractions(mockFantasyFiveRepository);
   });
 }
