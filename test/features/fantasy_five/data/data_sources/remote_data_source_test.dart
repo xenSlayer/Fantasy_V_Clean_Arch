@@ -8,6 +8,7 @@ import 'package:http/http.dart' as http;
 import 'package:mockito/mockito.dart';
 
 import '../../../../fixtures/fixture_reader.dart';
+import '../../../../test_urls/api_endpoints.dart';
 
 class MockHttpClient extends Mock implements http.Client {}
 
@@ -21,7 +22,7 @@ void main() {
   });
 
   group('should get user fantasy team from the API', () {
-    String uid = 'qjufmG6IS3NIBgfCgz8Zb9GKL8G3';
+    String uid = TESTUID;
 
     test('should perfome GET request in the API', () async {
       // arrange
@@ -30,8 +31,7 @@ void main() {
       //act
       await remoteDataSource.getTeam(uid);
       // assert
-      verify(mockHttpClient.get(
-          'https://fantasyv.pythonanywhere.com/event/?uid=$uid',
+      verify(mockHttpClient.get("${ENDPOINTS['team']}$uid",
           headers: {'Content-Type': 'application/json'}));
     });
 

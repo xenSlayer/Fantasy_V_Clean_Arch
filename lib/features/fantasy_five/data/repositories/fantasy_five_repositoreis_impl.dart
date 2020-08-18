@@ -24,7 +24,6 @@ class FantasyFiveRepositoryImpl implements FantasyFiveRepository {
         return Left(ServerFailure());
       }
     } else
-      // might remove later
       return Left(ServerFailure());
   }
 }
