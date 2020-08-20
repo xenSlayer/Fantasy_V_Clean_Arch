@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:meta/meta.dart';
 
 import '../../../../core/error/expcetions.dart';
@@ -25,5 +26,40 @@ class FantasyFiveRepositoryImpl implements FantasyFiveRepository {
       }
     } else
       return Left(ServerFailure());
+  }
+}
+
+class AuthServiceRepositoryImpl implements AuthServiceRepository {
+  final FirebaseAuth auth;
+
+  AuthServiceRepositoryImpl({@required this.auth});
+
+  @override
+  Future<Either<Failure, AuthResult>> loginWithEmail(
+      String email, String password) async {
+    try {
+      AuthResult authResult = await auth.signInWithEmailAndPassword(
+          email: email, password: password);
+      return Right(authResult);
+    } on FirebaseException {
+      return Left(FirebaseFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, AuthResult>> registerWithEmail(
+      String email, String password) async {
+    try {
+      AuthResult result = await auth.createUserWithEmailAndPassword(
+          email: email, password: password);
+      return Right(result);
+    } on FirebaseException {
+      return Left(FirebaseFailure());
+    }
+  }
+
+  @override
+  Future<void> logOut() async {
+    await auth.signOut();
   }
 }

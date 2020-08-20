@@ -13,10 +13,9 @@ import '../../../domain/usecases/get_team.dart';
 part 'team_event.dart';
 part 'team_state.dart';
 
-
 class TeamBloc extends Bloc<TeamEvent, TeamState> {
   final GetTeam getTeam;
-  final String uid;
+  final UID uid;
   TeamBloc({@required this.getTeam, @required this.uid})
       : super(TeamUnloadedState());
 
@@ -31,13 +30,12 @@ class TeamBloc extends Bloc<TeamEvent, TeamState> {
   }
 }
 
-
-Stream<TeamState> _getTeam(GetTeam getTeam, String uid) async* {
+Stream<TeamState> _getTeam(GetTeam getTeam, UID uid) async* {
   // Loading state
   yield TeamLoadingState();
   // Try making request to the [API]
   final Either<Failure, FantasyEntity> successOrFailure =
-      await getTeam.call(UID(uid));
+      await getTeam.call(uid);
   yield* successOrFailure.fold((error) async* {
     // API Call failed =>
     yield TeamLoadFailedState(errorMessage: mapErrorToMessage(error));

@@ -1,8 +1,12 @@
+import 'package:Fantasy_V_Clean_Arch/core/error/expcetions.dart';
+import 'package:Fantasy_V_Clean_Arch/core/error/failures.dart';
 import 'package:Fantasy_V_Clean_Arch/core/network/network_info.dart';
+import 'package:Fantasy_V_Clean_Arch/core/test_urls/api_endpoints.dart';
 import 'package:Fantasy_V_Clean_Arch/features/fantasy_five/data/datasources/remote_data_source.dart';
 import 'package:Fantasy_V_Clean_Arch/features/fantasy_five/data/repositories/fantasy_five_repositoreis_impl.dart';
 import 'package:Fantasy_V_Clean_Arch/features/fantasy_five/domain/entities/fantasy_five.dart';
 import 'package:dartz/dartz.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
@@ -13,19 +17,25 @@ class MockNetworkInfo extends Mock implements NetworkInfo {}
 class MockFantasyFiveRemoteDataSource extends Mock
     implements FantasyFiveRemoteDataSource {}
 
+class MockLoginRepo extends Mock implements FirebaseAuth {}
+
 void main() {
   MockNetworkInfo mockNetworkInfo;
   MockFantasyFiveRemoteDataSource remoteDataSource;
   FantasyFiveRepositoryImpl fantasyFiveRepositoryImpl;
+  MockLoginRepo mockLoginRepo;
+  AuthServiceRepositoryImpl authServiceRepositoryImpl;
 
   setUp(() {
     mockNetworkInfo = MockNetworkInfo();
     remoteDataSource = MockFantasyFiveRemoteDataSource();
+    mockLoginRepo = MockLoginRepo();
     fantasyFiveRepositoryImpl = FantasyFiveRepositoryImpl(
         networkInfo: mockNetworkInfo, remoteDataSource: remoteDataSource);
+    authServiceRepositoryImpl = AuthServiceRepositoryImpl(auth: mockLoginRepo);
   });
 
-  String uid = 'qjufmG6IS3NIBgfCgz8Zb9GKL8G3';
+  String uid = TESTUID;
 
   group('get USER TEAM from API', () {
     test('should check for network status', () async {
@@ -66,6 +76,71 @@ void main() {
     setUp(() {
       when(mockNetworkInfo.isConnected)
           .thenAnswer((realInvocation) async => false);
+    });
+  });
+
+  group('Firebase login', () {
+    AuthResult authResult;
+
+    test('should return [AuthResult] if login is successful', () async {
+      // arrange
+      when(mockLoginRepo.signInWithEmailAndPassword(
+              email: 'email', password: 'password'))
+          .thenAnswer((_) async => authResult);
+      //act
+      final result =
+          await authServiceRepositoryImpl.loginWithEmail('email', 'password');
+      // assert
+      expect(result, Right(authResult));
+    });
+
+    test('should return failure[FirebaseFailure] if the login is unsuccessful',
+        () async {
+      // arrange
+      when(mockLoginRepo.signInWithEmailAndPassword(
+              email: 'email', password: 'password'))
+          .thenThrow(FirebaseException());
+      //act
+      final result =
+          await authServiceRepositoryImpl.loginWithEmail('email', 'password');
+      // assert
+      expect(result, equals(Left(FirebaseFailure())));
+    });
+
+    test('should log out user when logOut() method is called', () async {
+      //act
+      await authServiceRepositoryImpl.logOut();
+      // assert
+      verify(mockLoginRepo.signOut());
+      verifyNoMoreInteractions(mockLoginRepo);
+    });
+
+    test('should return [UserEntity] when signing up is successful', () async {
+      // arrange
+      when(mockLoginRepo.signInWithEmailAndPassword(
+              email: 'email', password: 'password'))
+          .thenAnswer((_) async => authResult);
+      //act
+      final result =
+          await authServiceRepositoryImpl.loginWithEmail('email', 'password');
+      // assert
+      verify(mockLoginRepo.signInWithEmailAndPassword(
+          email: 'email', password: 'password'));
+      expect(result, Right(authResult));
+      verifyNoMoreInteractions(mockLoginRepo);
+    });
+
+    test('should return [FirebaseFailure] when signing up is unsuccessful',
+        () async {
+      // arrange
+      when(mockLoginRepo.signInWithEmailAndPassword(
+              email: 'email', password: 'password'))
+          .thenThrow(FirebaseException());
+      //act
+      final result =
+          await authServiceRepositoryImpl.loginWithEmail('email', 'password');
+      // assert
+      expect(result, equals(Left(FirebaseFailure())));
     });
   });
 }

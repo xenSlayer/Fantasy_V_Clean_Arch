@@ -11,3 +11,6 @@ class ServerFailure extends Failure {}
 
 // Cache failures from the device itself
 class CacheFailure extends Failure {}
+
+// Firebase login failures
+class FirebaseFailure extends Failure {}
