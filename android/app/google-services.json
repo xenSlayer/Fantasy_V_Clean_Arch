@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "663809377179",
+    "firebase_url": "https://fantasy-five-a2c27.firebaseio.com",
+    "project_id": "fantasy-five-a2c27",
+    "storage_bucket": "fantasy-five-a2c27.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:663809377179:android:dd2b9898bb9526a0bd973e",
+        "android_client_info": {
+          "package_name": "com.fantasyV.Fantasy_V_Clean_Arch"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "663809377179-t037csi7q2b9qe46qj6pm0s7flvb9g2u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD7UXZ71TSqacmLPulWs8EsCN23mdbPxUQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "663809377179-t037csi7q2b9qe46qj6pm0s7flvb9g2u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

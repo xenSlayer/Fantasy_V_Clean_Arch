@@ -11,7 +11,8 @@ class LoginEvent extends UserloginEvent {
   final String email;
   final String password;
 
-  LoginEvent({@required this.email, @required this.password});
+  LoginEvent({@required this.email, @required this.password})
+      : assert(email != null, password != null);
 
   @override
   List<Object> get props => [email, password];

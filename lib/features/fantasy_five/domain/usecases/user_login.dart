@@ -7,22 +7,33 @@ import '../../../../core/error/failures.dart';
 import '../../../../core/usecases/usecase.dart';
 import '../repositories/fantasy_five_repositories.dart';
 
-class UserLogin implements UseCase<AuthResult, LoginParams> {
+class UserLogin implements AuthUseCase<AuthResult, LoginRegisterParams> {
   final AuthServiceRepository authServiceRepository;
 
   UserLogin({@required this.authServiceRepository});
 
   @override
-  Future<Either<Failure, AuthResult>> call(LoginParams loginParams) async =>
-      await authServiceRepository.loginWithEmail(
-          loginParams.email, loginParams.password);
+  Future<Either<FirebaseFailure, AuthResult>> loginWithEmail(
+      LoginRegisterParams loginParams) async {
+    return await authServiceRepository.loginWithEmail(
+        email: loginParams.email, password: loginParams.password);
+  }
+
+  @override
+  Future<void> logout() async => await authServiceRepository.logOut();
+
+  @override
+  Future<Either<FirebaseFailure, AuthResult>> register(
+      LoginRegisterParams uid) {
+    throw UnimplementedError();
+  }
 }
 
-class LoginParams extends Equatable {
+class LoginRegisterParams extends Equatable {
   final String email;
   final String password;
 
-  LoginParams({@required this.email, @required this.password});
+  LoginRegisterParams({@required this.email, @required this.password});
   @override
   List<Object> get props => [email, password];
 }

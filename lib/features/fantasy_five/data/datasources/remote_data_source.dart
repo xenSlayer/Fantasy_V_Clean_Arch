@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart';
 import 'package:meta/meta.dart';
 
-import '../../../../core/error/expcetions.dart';
+import '../../../../core/error/exceptions.dart';
 import '../models/fantasy_five_models.dart';
 
 abstract class FantasyFiveRemoteDataSource {

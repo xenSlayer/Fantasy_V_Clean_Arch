@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:meta/meta.dart';
 
 import '../../../../core/error/failures.dart';
 import '../entities/fantasy_five.dart';
@@ -9,9 +10,9 @@ abstract class FantasyFiveRepository {
 }
 
 abstract class AuthServiceRepository {
-  Future<Either<Failure, AuthResult>> loginWithEmail(
-      String email, String password);
-  Future<Either<Failure, AuthResult>> registerWithEmail(
-      String email, String password);
+  Future<Either<FirebaseFailure, AuthResult>> loginWithEmail(
+      {@required String email, @required String password});
+  Future<Either<FirebaseFailure, AuthResult>> registerWithEmail(
+      {@required String email, @required String password});
   Future<void> logOut();
 }

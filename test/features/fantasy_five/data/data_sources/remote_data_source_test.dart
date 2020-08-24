@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:Fantasy_V_Clean_Arch/core/error/expcetions.dart';
+import 'package:Fantasy_V_Clean_Arch/core/error/exceptions.dart';
 import 'package:Fantasy_V_Clean_Arch/core/test_urls/api_endpoints.dart';
 import 'package:Fantasy_V_Clean_Arch/features/fantasy_five/data/datasources/remote_data_source.dart';
 import 'package:Fantasy_V_Clean_Arch/features/fantasy_five/data/models/fantasy_five_models.dart';

@@ -1,8 +1,9 @@
+import 'package:Fantasy_V_Clean_Arch/core/error/exceptions.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/services.dart';
 import 'package:meta/meta.dart';
 
-import '../../../../core/error/expcetions.dart';
 import '../../../../core/error/failures.dart';
 import '../../../../core/network/network_info.dart';
 import '../../domain/entities/fantasy_five.dart';
@@ -29,32 +30,33 @@ class FantasyFiveRepositoryImpl implements FantasyFiveRepository {
   }
 }
 
+/// AuthService Concrete Implementation
 class AuthServiceRepositoryImpl implements AuthServiceRepository {
   final FirebaseAuth auth;
 
   AuthServiceRepositoryImpl({@required this.auth});
 
   @override
-  Future<Either<Failure, AuthResult>> loginWithEmail(
-      String email, String password) async {
+  Future<Either<FirebaseFailure, AuthResult>> loginWithEmail(
+      {@required String email, @required String password}) async {
     try {
       AuthResult authResult = await auth.signInWithEmailAndPassword(
           email: email, password: password);
       return Right(authResult);
-    } on FirebaseException {
-      return Left(FirebaseFailure());
+    } on PlatformException catch (error) {
+      return Left(FirebaseFailure(error));
     }
   }
 
   @override
-  Future<Either<Failure, AuthResult>> registerWithEmail(
-      String email, String password) async {
+  Future<Either<FirebaseFailure, AuthResult>> registerWithEmail(
+      {@required String email, @required String password}) async {
     try {
       AuthResult result = await auth.createUserWithEmailAndPassword(
           email: email, password: password);
       return Right(result);
-    } on FirebaseException {
-      return Left(FirebaseFailure());
+    } on PlatformException catch (error) {
+      return Left(FirebaseFailure(error));
     }
   }
 

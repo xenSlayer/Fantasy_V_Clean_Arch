@@ -1,4 +1,3 @@
-import 'package:Fantasy_V_Clean_Arch/core/error/expcetions.dart';
 import 'package:Fantasy_V_Clean_Arch/core/error/failures.dart';
 import 'package:Fantasy_V_Clean_Arch/core/network/network_info.dart';
 import 'package:Fantasy_V_Clean_Arch/core/test_urls/api_endpoints.dart';
@@ -7,6 +6,7 @@ import 'package:Fantasy_V_Clean_Arch/features/fantasy_five/data/repositories/fan
 import 'package:Fantasy_V_Clean_Arch/features/fantasy_five/domain/entities/fantasy_five.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
@@ -79,17 +79,17 @@ void main() {
     });
   });
 
-  group('Firebase login', () {
-    AuthResult authResult;
+  AuthResult authResult;
 
+  group('Firebase LOGIN', () {
     test('should return [AuthResult] if login is successful', () async {
       // arrange
       when(mockLoginRepo.signInWithEmailAndPassword(
               email: 'email', password: 'password'))
           .thenAnswer((_) async => authResult);
       //act
-      final result =
-          await authServiceRepositoryImpl.loginWithEmail('email', 'password');
+      final result = await authServiceRepositoryImpl.loginWithEmail(
+          email: 'email', password: 'password');
       // assert
       expect(result, Right(authResult));
     });
@@ -98,31 +98,27 @@ void main() {
         () async {
       // arrange
       when(mockLoginRepo.signInWithEmailAndPassword(
-              email: 'email', password: 'password'))
-          .thenThrow(FirebaseException());
+              email: anyNamed('email'), password: anyNamed('password')))
+          .thenThrow(PlatformException);
       //act
-      final result =
-          await authServiceRepositoryImpl.loginWithEmail('email', 'password');
+      final result = await authServiceRepositoryImpl.loginWithEmail(
+          email: 'email', password: 'password');
+      Function call = authServiceRepositoryImpl.loginWithEmail;
       // assert
-      expect(result, equals(Left(FirebaseFailure())));
+      expect(() => call(email: 'email', password: 'password'),
+          Left(isInstanceOf<FirebaseFailure>()));
     });
+  });
 
-    test('should log out user when logOut() method is called', () async {
-      //act
-      await authServiceRepositoryImpl.logOut();
-      // assert
-      verify(mockLoginRepo.signOut());
-      verifyNoMoreInteractions(mockLoginRepo);
-    });
-
-    test('should return [UserEntity] when signing up is successful', () async {
+  group('Firebase SIGNUP', () {
+    test('should return [AuthResult] when signing up is successful', () async {
       // arrange
       when(mockLoginRepo.signInWithEmailAndPassword(
-              email: 'email', password: 'password'))
+              email: anyNamed('email'), password: anyNamed('password')))
           .thenAnswer((_) async => authResult);
       //act
-      final result =
-          await authServiceRepositoryImpl.loginWithEmail('email', 'password');
+      final result = await authServiceRepositoryImpl.loginWithEmail(
+          email: 'email', password: 'password');
       // assert
       verify(mockLoginRepo.signInWithEmailAndPassword(
           email: 'email', password: 'password'));
@@ -134,13 +130,24 @@ void main() {
         () async {
       // arrange
       when(mockLoginRepo.signInWithEmailAndPassword(
-              email: 'email', password: 'password'))
-          .thenThrow(FirebaseException());
+              email: anyNamed('email'), password: anyNamed('password')))
+          .thenThrow(PlatformException);
       //act
-      final result =
-          await authServiceRepositoryImpl.loginWithEmail('email', 'password');
+      final Function call = authServiceRepositoryImpl.loginWithEmail;
+
       // assert
-      expect(result, equals(Left(FirebaseFailure())));
+      expect(() => call(email: 'email', password: 'password'),
+          throwsA(isInstanceOf<AuthException>()));
+    });
+  });
+
+  group('Firebase LOGOUT', () {
+    test('should log out user when logOut() method is called', () async {
+      //act
+      await authServiceRepositoryImpl.logOut();
+      // assert
+      verify(mockLoginRepo.signOut());
+      verifyNoMoreInteractions(mockLoginRepo);
     });
   });
 }

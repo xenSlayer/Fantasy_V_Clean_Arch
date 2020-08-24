@@ -10,7 +10,7 @@ class NavBar extends StatefulWidget {
 
 class NavBarState extends State<NavBar> {
   int currentTab = 0;
-  final List<Widget> screens = [TeamPage()];
+  final List<Widget> screens = [TeamPage(), TeamPage()];
   Widget currentScreen = TeamPage();
 
   // final PageStorageBucket bucket = PageStorageBucket();
@@ -37,6 +37,7 @@ class NavBarState extends State<NavBar> {
           });
         },
         items: [
+          bmnav.BottomNavItem(Icons.polymer, label: 'Team'),
           bmnav.BottomNavItem(Icons.polymer, label: 'Team'),
         ],
       ),

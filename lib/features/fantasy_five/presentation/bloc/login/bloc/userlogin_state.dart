@@ -19,5 +19,5 @@ class UserLoginSuccessfulState extends UserloginState {
 
 class UserLoginFailureState extends UserloginState {
   final String message;
-  UserLoginFailureState({this.message});
+  UserLoginFailureState({@required this.message});
 }
