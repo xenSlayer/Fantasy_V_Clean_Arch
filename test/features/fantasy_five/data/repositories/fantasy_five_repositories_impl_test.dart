@@ -42,7 +42,7 @@ void main() {
       // arrange
       when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
       //act
-      fantasyFiveRepositoryImpl.getTeam(uid);
+      fantasyFiveRepositoryImpl.getTeam(uid: uid);
       // assert
       verify(mockNetworkInfo.isConnected);
       verifyNoMoreInteractions(mockNetworkInfo);
@@ -64,7 +64,7 @@ void main() {
       when(remoteDataSource.getTeam(uid))
           .thenAnswer((realInvocation) async => fantasyfiveSampleModel());
       //act
-      final result = await fantasyFiveRepositoryImpl.getTeam(uid);
+      final result = await fantasyFiveRepositoryImpl.getTeam(uid: uid);
       // assert
       verify(remoteDataSource.getTeam(uid));
       expect(result, equals(Right(obtainedData)));
@@ -79,7 +79,7 @@ void main() {
     });
   });
 
-  AuthResult authResult;
+  UserCredential authResult;
 
   group('Firebase LOGIN', () {
     test('should return [AuthResult] if login is successful', () async {
@@ -99,14 +99,12 @@ void main() {
       // arrange
       when(mockLoginRepo.signInWithEmailAndPassword(
               email: anyNamed('email'), password: anyNamed('password')))
-          .thenThrow(PlatformException);
+          .thenThrow(PlatformException(code: 'ERROR'));
       //act
       final result = await authServiceRepositoryImpl.loginWithEmail(
           email: 'email', password: 'password');
-      Function call = authServiceRepositoryImpl.loginWithEmail;
       // assert
-      expect(() => call(email: 'email', password: 'password'),
-          Left(isInstanceOf<FirebaseFailure>()));
+      expect(result, Left(FirebaseFailure(FirebaseAuthException(code: 'ERROR', message: 'Error'))));
     });
   });
 
@@ -131,13 +129,13 @@ void main() {
       // arrange
       when(mockLoginRepo.signInWithEmailAndPassword(
               email: anyNamed('email'), password: anyNamed('password')))
-          .thenThrow(PlatformException);
+          .thenThrow(PlatformException(code: 'error'));
       //act
-      final Function call = authServiceRepositoryImpl.loginWithEmail;
+      final result = authServiceRepositoryImpl.registerWithEmail(
+          email: 'email', password: 'password');
 
       // assert
-      expect(() => call(email: 'email', password: 'password'),
-          throwsA(isInstanceOf<AuthException>()));
+      expect(result, Right(isInstanceOf<FirebaseFailure>()));
     });
   });
 

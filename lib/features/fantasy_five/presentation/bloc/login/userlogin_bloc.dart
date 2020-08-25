@@ -14,8 +14,8 @@ part 'userlogin_event.dart';
 part 'userlogin_state.dart';
 
 class UserloginBloc extends Bloc<UserloginEvent, UserloginState> {
-  UserLogin userLogin;
-  UserloginBloc({@required this.userLogin}) : super(UserloginInitialState());
+  AuthService authService;
+  UserloginBloc({@required this.authService}) : super(UserloginInitialState());
 
   @override
   Stream<UserloginState> mapEventToState(
@@ -25,11 +25,11 @@ class UserloginBloc extends Bloc<UserloginEvent, UserloginState> {
       // shows loading progress
       yield UserLoginProgressState();
       // make repo call
-      Either<FirebaseFailure, AuthResult> loginStatus =
-          await userLogin.loginWithEmail(EmailPasswordParams(
+      Either<FirebaseFailure, UserCredential> authStatus =
+          await authService.loginWithEmail(EmailPasswordParams(
               email: event.email, password: event.password));
 
-      yield* loginStatus.fold((failure) async* {
+      yield* authStatus.fold((failure) async* {
         // returns [FirebaseFailure] with messages if signing failed
         yield UserLoginFailureState(
             message: mapFirebaseAuthFailureToMessage(failure.error));

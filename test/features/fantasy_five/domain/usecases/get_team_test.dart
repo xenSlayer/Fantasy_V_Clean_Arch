@@ -22,13 +22,13 @@ void main() {
 
   test('should return a team model from the repository', () async {
     // arrange
-    when(mockFantasyFiveRepository.getTeam(any))
+    when(mockFantasyFiveRepository.getTeam(uid: uid))
         .thenAnswer((_) async => Right(teamModel));
     //act
     final result = await getTeam(UID(uid));
     // assert
     expect(result, Right(teamModel));
-    verify(mockFantasyFiveRepository.getTeam(any));
+    verify(mockFantasyFiveRepository.getTeam(uid: uid));
     verifyNoMoreInteractions(mockFantasyFiveRepository);
   });
 }

@@ -12,7 +12,7 @@ class UserloginInitialState extends UserloginState {}
 class UserLoginProgressState extends UserloginState {}
 
 class UserLoginSuccessfulState extends UserloginState {
-  final AuthResult authResult;
+  final UserCredential authResult;
 
   UserLoginSuccessfulState({this.authResult});
 }

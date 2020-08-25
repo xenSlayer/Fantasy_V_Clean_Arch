@@ -30,6 +30,7 @@ Center logginInWidget() {
 Container buildTextField({
   @required TextEditingController controller,
   @required String hintText,
+  @required IconData icon,
 }) {
   return Container(
       width: 280,
@@ -41,7 +42,7 @@ Container buildTextField({
         style: TextStyle(color: Colors.black),
         controller: controller,
         decoration: InputDecoration(
-          prefixIcon: Icon(Icons.mail, color: Colors.black),
+          prefixIcon: Icon(icon, color: Colors.black),
           suffix: GestureDetector(
               onTap: () => controller.text = '',
               child: Icon(Icons.clear, color: Colors.black, size: 18)),

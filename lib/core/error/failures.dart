@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/services.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 abstract class Failure extends Equatable {
   Failure([List properties = const <dynamic>[]]) : super();
@@ -15,7 +15,7 @@ class CacheFailure extends Failure {}
 
 /// Firebase login failures with error message passed in constructor
 class FirebaseFailure extends Failure {
-  final PlatformException error;
+  final FirebaseAuthException error;
   FirebaseFailure(this.error);
 
   @override

@@ -6,7 +6,7 @@ import '../../../domain/usecases/user_login.dart';
 class TeamPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    UserLogin userLogin = ul<UserLogin>();
+    AuthService userLogin = ul<AuthService>();
     return Scaffold(
         body: SafeArea(
       child: IconButton(

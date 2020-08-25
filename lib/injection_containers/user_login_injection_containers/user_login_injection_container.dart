@@ -6,16 +6,17 @@ import '../../features/fantasy_five/domain/repositories/fantasy_five_repositorie
 import '../../features/fantasy_five/domain/usecases/user_login.dart';
 import '../../features/fantasy_five/presentation/bloc/login/userlogin_bloc.dart';
 
+
 final ul = GetIt.instance;
 
 Future<void> login() async {
   /// Login
   ///
   // Bloc
-  ul.registerFactory(() => UserloginBloc(userLogin: ul()));
+  ul.registerFactory(() => UserloginBloc(authService: ul()));
 
   // Usecase
-  ul.registerLazySingleton(() => UserLogin(authServiceRepository: ul()));
+  ul.registerLazySingleton(() => AuthService(authServiceRepository: ul()));
 
   // Repository
   ul.registerLazySingleton<AuthServiceRepository>(

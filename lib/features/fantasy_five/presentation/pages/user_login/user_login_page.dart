@@ -40,7 +40,6 @@ class LoginPageInitial extends StatelessWidget {
   Widget build(BuildContext context) {
     TextEditingController emailController = TextEditingController();
     TextEditingController passwordController = TextEditingController();
-    TextStyle style = TextStyle(color: Colors.black);
 
     void _loginCheck(TextEditingController emailController,
         TextEditingController passwordController) {
@@ -48,6 +47,7 @@ class LoginPageInitial extends StatelessWidget {
         BlocProvider.of<UserloginBloc>(context).add(LoginEvent(
             email: emailController.text, password: passwordController.text));
       } else {
+        Scaffold.of(context).hideCurrentSnackBar();
         Scaffold.of(context).showSnackBar(SnackBar(
             backgroundColor: Colors.red, content: Text('Invalid Input')));
       }
@@ -60,13 +60,17 @@ class LoginPageInitial extends StatelessWidget {
         child: CircleAvatar(radius: 90, backgroundColor: Colors.white10),
       ),
       Padding(
-          padding: const EdgeInsets.all(10.0),
-          child:
-              buildTextField(controller: emailController, hintText: 'Email')),
-      Padding(
-          padding: const EdgeInsets.all(10.0),
+          padding: EdgeInsets.all(10.0),
           child: buildTextField(
-              controller: passwordController, hintText: 'Password')),
+              controller: emailController,
+              hintText: 'Email',
+              icon: Icons.email)),
+      Padding(
+          padding: EdgeInsets.all(10.0),
+          child: buildTextField(
+              controller: passwordController,
+              hintText: 'Password',
+              icon: Icons.lock)),
       Padding(
         padding: EdgeInsets.all(30.0),
         child: InkWell(
@@ -78,7 +82,7 @@ class LoginPageInitial extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          Text('Need an account? ', style: style),
+          Text('Need an account? '),
           SizedBox(width: 5),
           GestureDetector(
             onTap: () {},
@@ -98,7 +102,7 @@ class LoginPageInitial extends StatelessWidget {
 class LoginFailure extends StatelessWidget {
   final String message;
 
-  const LoginFailure({Key key, this.message}) : super(key: key);
+  LoginFailure({this.message});
   @override
   Widget build(BuildContext context) {
     return Scaffold(

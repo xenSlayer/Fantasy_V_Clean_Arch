@@ -7,13 +7,13 @@ import '../../../../core/error/failures.dart';
 import '../../../../core/usecases/usecase.dart';
 import '../repositories/fantasy_five_repositories.dart';
 
-class UserLogin implements AuthUseCase<AuthResult, EmailPasswordParams> {
+class AuthService implements AuthUseCase<UserCredential, EmailPasswordParams> {
   final AuthServiceRepository authServiceRepository;
 
-  UserLogin({@required this.authServiceRepository});
+  AuthService({@required this.authServiceRepository});
 
   @override
-  Future<Either<FirebaseFailure, AuthResult>> loginWithEmail(
+  Future<Either<FirebaseFailure, UserCredential>> loginWithEmail(
       EmailPasswordParams loginParams) async {
     return await authServiceRepository.loginWithEmail(
         email: loginParams.email, password: loginParams.password);
@@ -23,7 +23,7 @@ class UserLogin implements AuthUseCase<AuthResult, EmailPasswordParams> {
   Future<void> logout() async => await authServiceRepository.logOut();
 
   @override
-  Future<Either<FirebaseFailure, AuthResult>> register(
+  Future<Either<FirebaseFailure, UserCredential>> register(
       EmailPasswordParams uid) {
     throw UnimplementedError();
   }

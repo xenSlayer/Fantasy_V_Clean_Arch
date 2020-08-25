@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
-class User extends UserEntity {
-  User({String uid}) : super(uid: uid);
+class UserModel extends UserEntity {
+  UserModel({String uid}) : super(uid: uid);
 }
 
 class UserEntity extends Equatable {

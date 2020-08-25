@@ -6,13 +6,13 @@ import '../../../../core/error/failures.dart';
 import '../entities/fantasy_five.dart';
 
 abstract class FantasyFiveRepository {
-  Future<Either<Failure, FantasyEntity>> getTeam(String uid);
+  Future<Either<Failure, FantasyEntity>> getTeam({@required String uid});
 }
 
 abstract class AuthServiceRepository {
-  Future<Either<FirebaseFailure, AuthResult>> loginWithEmail(
+  Future<Either<FirebaseFailure, UserCredential>> loginWithEmail(
       {@required String email, @required String password});
-  Future<Either<FirebaseFailure, AuthResult>> registerWithEmail(
+  Future<Either<FirebaseFailure, UserCredential>> registerWithEmail(
       {@required String email, @required String password});
   Future<void> logOut();
 }

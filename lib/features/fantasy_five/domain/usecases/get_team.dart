@@ -14,7 +14,7 @@ class GetTeam implements UseCase<FantasyEntity, UID> {
 
   @override
   Future<Either<Failure, FantasyEntity>> call(UID user) async =>
-      await fantasyFiveRepository.getTeam(user.uid);
+      await fantasyFiveRepository.getTeam(uid: user.uid);
 }
 
 class UID extends Equatable {
