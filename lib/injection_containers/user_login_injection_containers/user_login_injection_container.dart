@@ -4,7 +4,7 @@ import 'package:get_it/get_it.dart';
 import '../../features/fantasy_five/data/repositories/fantasy_five_repositoreis_impl.dart';
 import '../../features/fantasy_five/domain/repositories/fantasy_five_repositories.dart';
 import '../../features/fantasy_five/domain/usecases/user_login.dart';
-import '../../features/fantasy_five/presentation/bloc/login/bloc/userlogin_bloc.dart';
+import '../../features/fantasy_five/presentation/bloc/login/userlogin_bloc.dart';
 
 final ul = GetIt.instance;
 

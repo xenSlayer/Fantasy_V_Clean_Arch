@@ -23,7 +23,7 @@ class FantasyV extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: StreamBuilder<User>(
+        home: StreamBuilder<UserEntity>(
             stream: AuthService().user,
             builder: (context, snapshot) {
               return snapshot.hasData ? NavBar() : LoginPage();

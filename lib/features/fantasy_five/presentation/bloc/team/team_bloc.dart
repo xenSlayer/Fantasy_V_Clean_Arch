@@ -38,7 +38,7 @@ Stream<TeamState> _getTeam(GetTeam getTeam, UID uid) async* {
       await getTeam.call(uid);
   yield* successOrFailure.fold((error) async* {
     // API Call failed =>
-    yield TeamLoadFailedState(errorMessage: mapErrorToMessage(error));
+    yield TeamLoadFailedState(errorMessage: mapNetworkErrorToMessage(error));
   }, (team) async* {
     // API call success =>
     yield TeamLoadSuccessState(team: team);
