@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:Fantasy_V_Clean_Arch/features/fantasy_five/data/models/fantasy_five_models.dart';
-import 'package:Fantasy_V_Clean_Arch/features/fantasy_five/domain/entities/fantasy_five.dart';
+import 'package:Fantasy_V_Clean_Arch/features/fantasy_five/domain/entities/fantasy_five_entity.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../../../core/sample_model/sample_model.dart';
@@ -10,7 +10,7 @@ import '../../../../fixtures/fixture_reader.dart';
 void main() {
   FantasyFiveModel fantasyFiveModel = fantasyfiveSampleModel();
 
-  test('should be sub group of fantasyFive Entity', () async {
+  test('should be sub class of fantasyFive Entity', () async {
     expect(fantasyFiveModel, isA<FantasyEntity>());
   });
 

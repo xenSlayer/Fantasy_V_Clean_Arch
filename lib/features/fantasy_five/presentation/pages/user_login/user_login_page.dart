@@ -11,8 +11,8 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocProvider(
-        create: (BuildContext context) => ul<UserloginBloc>(),
-        child: BlocBuilder<UserloginBloc, UserloginState>(
+        create: (BuildContext context) => ul<UserAuthBloc>(),
+        child: BlocBuilder<UserAuthBloc, UserloginState>(
           builder: (context, state) {
             if (state is UserLoginProgressState) {
               return Stack(children: [
@@ -44,7 +44,7 @@ class LoginPageInitial extends StatelessWidget {
     void _loginCheck(TextEditingController emailController,
         TextEditingController passwordController) {
       if (emailController.text != '' && passwordController.text != '') {
-        BlocProvider.of<UserloginBloc>(context).add(LoginEvent(
+        BlocProvider.of<UserAuthBloc>(context).add(LoginEvent(
             email: emailController.text, password: passwordController.text));
       } else {
         Scaffold.of(context).hideCurrentSnackBar();
@@ -54,7 +54,7 @@ class LoginPageInitial extends StatelessWidget {
     }
 
     return Scaffold(
-        body: ListView(children: [
+        body: ListView(physics: BouncingScrollPhysics(), children: [
       Padding(
         padding: EdgeInsets.only(top: 48, bottom: 40),
         child: CircleAvatar(radius: 90, backgroundColor: Colors.white10),
@@ -102,7 +102,7 @@ class LoginPageInitial extends StatelessWidget {
 class LoginFailure extends StatelessWidget {
   final String message;
 
-  LoginFailure({this.message});
+  LoginFailure({@required this.message});
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:meta/meta.dart';
 
 abstract class Failure extends Equatable {
   Failure([List properties = const <dynamic>[]]) : super();
@@ -20,4 +21,10 @@ class FirebaseFailure extends Failure {
 
   @override
   List<Object> get props => [error];
+}
+
+/// FireStore failure
+class FireStoreFailure extends Failure {
+  final String message;
+  FireStoreFailure({@required this.message});
 }

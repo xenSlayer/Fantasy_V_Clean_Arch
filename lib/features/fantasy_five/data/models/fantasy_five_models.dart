@@ -1,6 +1,6 @@
 import 'package:meta/meta.dart';
 
-import '../../domain/entities/fantasy_five.dart';
+import '../../domain/entities/fantasy_five_entity.dart';
 
 class FantasyFiveModel extends FantasyEntity {
   FantasyFiveModel(
@@ -11,9 +11,10 @@ class FantasyFiveModel extends FantasyEntity {
       @required bool unlimitedTransfer,
       @required int totalPoints,
       @required int gwPoints,
-      @required List<Player> captain,
-      @required List<Player> startingXIList,
-      @required List<Player> substituteList})
+      @required List<PlayerEntity> captain,
+      @required List<PlayerEntity> startingXIList,
+      @required List<PlayerEntity> substituteList
+      })
       : super(
           pk: pk,
           uid: uid,
@@ -62,42 +63,41 @@ class FantasyFiveModel extends FantasyEntity {
 
 class Player extends PlayerEntity {
   Player({
-    this.id,
-    this.playerName,
-    this.playerId,
-    this.playerIsInjured,
-    this.playerIsSuspended,
-    this.playerPrice,
-    this.playerGwPoints,
-    this.totalPoints,
-    this.playerClub,
-    this.playerPosition,
-    this.playerImage,
-    this.playerGoalsScored,
-    this.playerAssist,
-    this.cleanSheets,
-    this.yellowCards,
-    this.redCards,
-    this.extraAttributes,
-  });
-
-  final int id;
-  final String playerName;
-  final int playerId;
-  final bool playerIsInjured;
-  final bool playerIsSuspended;
-  final int playerPrice;
-  final int playerGwPoints;
-  final int totalPoints;
-  final String playerClub;
-  final String playerPosition;
-  final String playerImage;
-  final int playerGoalsScored;
-  final int playerAssist;
-  final int cleanSheets;
-  final int yellowCards;
-  final int redCards;
-  final String extraAttributes;
+    int id,
+    String playerName,
+    int playerId,
+    bool playerIsInjured,
+    bool playerIsSuspended,
+    int playerPrice,
+    int playerGwPoints,
+    int totalPoints,
+    String playerClub,
+    String playerPosition,
+    String playerImage,
+    int playerGoalsScored,
+    int playerAssist,
+    int cleanSheets,
+    int yellowCards,
+    int redCards,
+    final extraAttributes,
+  }) : super(
+            id: id,
+            playerName: playerName,
+            playerId: playerId,
+            playerIsInjured: playerIsInjured,
+            playerIsSuspended: playerIsSuspended,
+            playerPrice: playerPrice,
+            playerGWPoints: playerGwPoints,
+            totalPoints: totalPoints,
+            playerClub: playerClub,
+            playerPosition: playerPosition,
+            playerImage: playerImage,
+            playerGoalsScored: playerGoalsScored,
+            playerAssist: playerAssist,
+            cleanSheets: cleanSheets,
+            yellowCards: yellowCards,
+            redCards: redCards,
+            extraAttributes: extraAttributes);
 
   factory Player.fromJson(Map<String, dynamic> json) => Player(
         id: json["id"],
@@ -126,7 +126,7 @@ class Player extends PlayerEntity {
         "player_isInjured": playerIsInjured,
         "player_isSuspended": playerIsSuspended,
         "player_price": playerPrice,
-        "player_GWPoints": playerGwPoints,
+        "player_GWPoints": playerGWPoints,
         "total_points": totalPoints,
         "player_club": playerClub,
         "player_position": playerPosition,

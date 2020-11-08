@@ -13,9 +13,9 @@ import '../../../domain/usecases/user_login.dart';
 part 'userlogin_event.dart';
 part 'userlogin_state.dart';
 
-class UserloginBloc extends Bloc<UserloginEvent, UserloginState> {
+class UserAuthBloc extends Bloc<UserloginEvent, UserloginState> {
   AuthService authService;
-  UserloginBloc({@required this.authService}) : super(UserloginInitialState());
+  UserAuthBloc({@required this.authService}) : super(UserloginInitialState());
 
   @override
   Stream<UserloginState> mapEventToState(
@@ -37,6 +37,8 @@ class UserloginBloc extends Bloc<UserloginEvent, UserloginState> {
         // returns [AuthResult] if successful
         yield UserLoginSuccessfulState(authResult: authresult);
       });
+    } else if (event is LogOutEvent) {
+      authService.logout();
     }
   }
 }

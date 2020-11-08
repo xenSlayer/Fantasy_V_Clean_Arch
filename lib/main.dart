@@ -1,4 +1,3 @@
-import 'package:Fantasy_V_Clean_Arch/core/models/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -22,13 +21,15 @@ void main() async {
 }
 
 class FantasyV extends StatelessWidget {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+            bottomNavigationBarTheme:
+                BottomNavigationBarThemeData(backgroundColor: Colors.amber)),
         home: StreamBuilder<UserEntity>(
-            stream: _auth.authStateChanges().map(
+            stream: FirebaseAuth.instance.authStateChanges().map(
                 (User user) => user != null ? UserModel(uid: user.uid) : null),
             builder: (context, snapshot) {
               return snapshot.hasData ? NavBar() : LoginPage();

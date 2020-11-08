@@ -7,9 +7,9 @@ abstract class TeamState extends Equatable {
   List<Object> get props => [];
 }
 
-class TeamUnloadedState extends TeamState {}
+class TeamUnloadedInitialState extends TeamState {}
 
-class TeamLoadingState extends TeamState {}
+// class TeamLoadingState extends TeamState {}
 
 class TeamLoadFailedState extends TeamState {
   final String errorMessage;
@@ -17,6 +17,13 @@ class TeamLoadFailedState extends TeamState {
 }
 
 class TeamLoadSuccessState extends TeamState {
+  final List<PlayerEntity> gk, df, mf, fw;
   final FantasyEntity team;
-  TeamLoadSuccessState({@required this.team});
+  TeamLoadSuccessState({
+    @required this.gk,
+    @required this.df,
+    @required this.mf,
+    @required this.fw,
+    @required this.team,
+  });
 }

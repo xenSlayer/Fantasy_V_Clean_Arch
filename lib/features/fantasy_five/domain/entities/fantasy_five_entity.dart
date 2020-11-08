@@ -62,23 +62,23 @@ class PlayerEntity extends Equatable {
   final extraAttributes;
 
   PlayerEntity(
-      {this.id,
-      this.playerName,
-      this.playerId,
-      this.playerIsInjured,
-      this.playerIsSuspended,
-      this.playerPrice,
-      this.playerGWPoints,
-      this.totalPoints,
-      this.playerClub,
-      this.playerPosition,
-      this.playerImage,
-      this.playerGoalsScored,
-      this.playerAssist,
-      this.cleanSheets,
-      this.yellowCards,
-      this.redCards,
-      this.extraAttributes});
+      {@required this.id,
+      @required this.playerName,
+      @required this.playerId,
+      @required this.playerIsInjured,
+      @required this.playerIsSuspended,
+      @required this.playerPrice,
+      @required this.playerGWPoints,
+      @required this.totalPoints,
+      @required this.playerClub,
+      @required this.playerPosition,
+      @required this.playerImage,
+      @required this.playerGoalsScored,
+      @required this.playerAssist,
+      @required this.cleanSheets,
+      @required this.yellowCards,
+      @required this.redCards,
+      @required this.extraAttributes});
 
   @override
   List<Object> get props => [

@@ -1,12 +1,11 @@
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/services.dart';
 import 'package:meta/meta.dart';
 
 import '../../../../core/error/exceptions.dart';
 import '../../../../core/error/failures.dart';
 import '../../../../core/network/network_info.dart';
-import '../../domain/entities/fantasy_five.dart';
+import '../../domain/entities/fantasy_five_entity.dart';
 import '../../domain/repositories/fantasy_five_repositories.dart';
 import '../datasources/remote_data_source.dart';
 
@@ -66,6 +65,33 @@ class AuthServiceRepositoryImpl implements AuthServiceRepository {
       return Right(result);
     } on FirebaseAuthException catch (error) {
       return Left(FirebaseFailure(error));
+    }
+  }
+}
+
+// UserInfo
+class UserInfoRepositoryImpl implements UserInfoRepository {
+  final NetworkInfo networkInfo;
+  final UserInfoFirestoreCalls remoteCalls;
+
+  UserInfoRepositoryImpl(
+      {@required this.networkInfo, @required this.remoteCalls});
+
+  @override
+  Future<Either<FireStoreFailure, bool>> updateUserInfo(
+      {@required String fullName,
+      @required String teamName,
+      @required String phone,
+      @required String address}) async {
+    if (await networkInfo.isConnected) {
+      final bool result = await remoteCalls.updateUserInfo(
+          fullName: fullName,
+          teamName: teamName,
+          phone: phone,
+          address: address);
+      return Right(result);
+    } else {
+      return Left(FireStoreFailure(message: 'NO CONNECTION. TRY AGAIN'));
     }
   }
 }
